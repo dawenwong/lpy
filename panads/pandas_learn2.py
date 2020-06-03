@@ -510,9 +510,24 @@ no_2 = air_quality.pivot(index='datetime',columns='location',values='value')
 # print(no_2.index.year)
 # print(no_2.index.weekday)
 
+# print(no_2.head())
+# print(no_2.tail())
+# #Create a plot of the No2 values in the different stations from the 20th of May till the end of 21st of June
+# no_2['2019-05-20':'2019-06-21'].plot()
+# plt.show()
+# #By providing a string that parses to a datetime,a specific subset of the data can be select on a DatatimeIndex
 
-
-
-
+# #Resample a time series to another frequency
+# #Aggregate the current hourly time Series values to the monthly maximum value in each of the stations
+# monthly_max = no_2.resample('M').max()
+# print(monthly_max)
+# #A very  powerful method on time series data with a datetime index,is the ability to resamplr() time 
+# #series to another frequency.
+# #The resample() method is similar to a groupby opetation:
+# #it provides a time-based grouping,by using a string (e.g. 5H,...) that defines the target frequency
+# #it requires an aggregation function such as mean(),max()...
+# #Make a plot of daily median NO2 value in each of the station
+no_2.resample('D').mean().plot(style='-o',figsize=(10,5))
+plt.show()
 
 
