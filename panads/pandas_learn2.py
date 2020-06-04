@@ -451,16 +451,16 @@
 """step 9 :How to handle time series data with ease?"""
 
 ##############################################################################################################
-import pandas as pd 
-import matplotlib.pyplot as plt 
-air_quality = pd.read_csv(r'data\air_quality_no2_long.csv')
-air_quality = air_quality.rename(columns={'date.utc':'datetime'})
+# import pandas as pd 
+# import matplotlib.pyplot as plt 
+# air_quality = pd.read_csv(r'data\air_quality_no2_long.csv')
+# air_quality = air_quality.rename(columns={'date.utc':'datetime'})
 
 # print(air_quality.city.unique())
 
 # #Using  pandas datetime properties
 # #I want to work with the dates in the column datetimes as datetime objects instead of  plain text
-air_quality['datetime'] = pd.to_datetime(air_quality['datetime'])
+# air_quality['datetime'] = pd.to_datetime(air_quality['datetime'])
 #print(air_quality['datetime'])
 # #Initially,the values in 'datetime' are character strings and do not provide any datetime operations.
 # #By applying the 'to_datetime' function,pandas interprets the strings and convert these to datetime 
@@ -501,7 +501,7 @@ air_quality['datetime'] = pd.to_datetime(air_quality['datetime'])
 # #use the split-apply-combine approach again.
 
 # #Datetime as index
-no_2 = air_quality.pivot(index='datetime',columns='location',values='value')
+# no_2 = air_quality.pivot(index='datetime',columns='location',values='value')
 # print(no_2)
 # #By pivoting the data,the datetime information became the inde of the table.In general,setting 
 # #a column as an index can be achieved by 'set_index()' function
@@ -527,8 +527,8 @@ no_2 = air_quality.pivot(index='datetime',columns='location',values='value')
 # #it provides a time-based grouping,by using a string (e.g. 5H,...) that defines the target frequency
 # #it requires an aggregation function such as mean(),max()...
 # #Make a plot of daily median NO2 value in each of the station
-no_2.resample('D').mean().plot(style='-o',figsize=(10,5))
-plt.show()
+# no_2.resample('D').mean().plot(style='-o',figsize=(10,5))
+# plt.show()
 # #remember:
         # #valid date strings can be converted to datetime objects using "to_datetime()"fuction or 
         # #as part of read function
@@ -536,4 +536,60 @@ plt.show()
         # #date-related properties using the "dt" accessor
         # #A DatetimeIndex contains these date-related properties and supports convenient slicing,
         # #Resample is a powerful method to change the frequency of a time series.  
+
+####################################################################################################################
+"""step 10 How to manipulate textual data """
+####################################################################################################################
+import pandas as pd
+titanic = pd.read_csv("data\\titanic.csv")
+# print(titanic.head())
+# print(titanic.tail())
+
+# #make all name characters lowercase
+# print(titanic['Name'].str.lower())
+# #To make each of the strings in the "Name" column lowercase,select the name column add the "str" accessor 
+# #and apply the "lower" method.As such,each of the strings converted element-wise.
+# #Similar to the datetime objects in the time series tutorial having a "dt" accessor,a number of specialized 
+# #string methods are available when using the "str" accessor.These methods have in general matching names with
+# #the equivalent built-in string methods for single elements,but are applied element-wise on each of the values 
+# #of the columns.
+
+# #create a new column "surname" that contains the surname of the passengers by extracting the part before the comma
+# print(titanic["Name"].str.split(","))
+# #Using the series.str.split()method,each of the values is returned as a list of 2 elements.The first element is the 
+# #part before the comma and the second element the part after comma.
+# titanic['Surname'] = titanic['Name'].str.split(',').str.get(0)
+# print(titanic['Surname'])
+# #As we are only interested in the first part representing the surname(elemnet 0),we can again use the "str" accessor
+# #and apply "series.str.get()" to extract the relevant part.Indeed,these string functions can be concatenated combine
+# #multiple function at once.
+
+# #Extract the passenger data about the Countess on the board of the Titanic
+# print(titanic['Name'].str.contains('Countess'))
+# print(titanic[titanic['Name'].str.contains('Countess')])
+# #The string method Series.str.contains() checks for each of the values in the column name if the string contains the 
+# #word "Countess" and returns for each of the values True("Countess" is part of the name) of False ("Countess" is not
+# part of the name).This ouput can be used to subselect the data using conditional(boolean).
+
+# #Which passenger of the titanic has the longest name?
+# print(titanic['Name'].str.len())
+# #To get the longest name we first have to get the lengths of each of the names in the name column.By using pandas 
+# #strings method,the Series.str.len()function is applied to each of the names individually(element-wise).
+# print(titanic['Name'].str.len().idxmax()) 
+# #Next,we need to get the corresponding location,preferably the index label,in the table for which the name length is
+# #the largest. The idxmax() method does exactly that.It is not a string method and is applied to integers,so no str is use.
+# the_longest_name = titanic.loc[titanic['Name'].str.len().idxmax(),'Name']
+# print(the_longest_name)
+
+# #In the 'Sex' columns,replace values of 'male'by 'M' and all 'female' values by 'F'
+# titanic['Sex_short'] = titanic['Sex'].replace({"male":"M","female":"F"})
+# print(titanic['Sex_short'])
+# #Whereas "replace()" is not a string method,it provides a convenient way to use mappings or vocabularies to translate
+# #certain values.It requires a dictionary to define the mapping{from : to}
+# #REMEMBER:
+        # #String methods are available using the str accessor.
+        # #String methods work element-wise and can be used for conditional index.
+        # #The replace method is a convenient method to convert values according to a given dictionary.
+
+
 
