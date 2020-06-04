@@ -529,5 +529,11 @@ no_2 = air_quality.pivot(index='datetime',columns='location',values='value')
 # #Make a plot of daily median NO2 value in each of the station
 no_2.resample('D').mean().plot(style='-o',figsize=(10,5))
 plt.show()
-
+# #remember:
+        # #valid date strings can be converted to datetime objects using "to_datetime()"fuction or 
+        # #as part of read function
+        # #Datetime objects in pandas supports calculactions,logical operations and convenient 
+        # #date-related properties using the "dt" accessor
+        # #A DatetimeIndex contains these date-related properties and supports convenient slicing,
+        # #Resample is a powerful method to change the frequency of a time series.  
 
