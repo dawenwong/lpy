@@ -85,3 +85,20 @@ import numpy as np
 # div,rem = divmod(s,[2, 2, 3, 3, 4, 4, 5, 5, 6, 6])
 # print(div)
 # print(rem)
+
+# #Missing data /operations with fill values
+# #In Series and DataFrame,the arithmetic functions have the option of inputting a "fill_value",namely a value to 
+# #substitute when at most one of the values at location are missing.For example,when adding two DataFrame objects
+# #you may wish to treat NaN as 0 unless both DataFrames are missing that value,in which case the result will be 
+# #NaN(You can later replace NaN with some other value using "fillna" if you wish)
+# df = pd.DataFrame({
+#    'one':pd.Series(np.random.randn(3),index=['a','b','c']),
+#    'two':pd.Series(np.random.randn(4),index=['a','b','c','d']),
+#    'three':pd.Series(np.random.randn(3),index=['b','c','d'])})
+# #print(df)
+# df2 = pd.DataFrame({
+#    'one':pd.Series(np.random.randn(3),index=['a','b','c']),
+#    'two':pd.Series(np.random.randn(4),index=['a','b','c','d']),
+#    'three':pd.Series(np.random.randn(4),index=['a','b','c','d'])})
+# print(df+df2)
+# print(df.add(df2,fill_value=0))
