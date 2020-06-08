@@ -69,3 +69,19 @@ import numpy as np
 # dfmi.index = pd.MultiIndex.from_tuples([(1,'a'),(1,'b'),(1,'c'),(2,'a')],names=['first','second'])
 # print(dfmi)
 # print(dfmi.sub(column,axis=0,level='second'))
+
+# #Series and index also support the divmod() builtin.This function takes the floor division and modulo
+# #operation at the same time returning a two-tuple of the same type as the left hand side.For example:
+# s = pd.Series(np.arange(10))
+# div,rem = divmod(s,3)
+# print(div)
+# print(rem)
+# idx = pd.Index(np.arange(10))
+# print(idx)
+# div,rem = divmod(idx,3)
+# print(div)
+# print(rem)
+# #We can also do elementwise divmod()
+# div,rem = divmod(s,[2, 2, 3, 3, 4, 4, 5, 5, 6, 6])
+# print(div)
+# print(rem)
