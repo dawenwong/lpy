@@ -1,4 +1,4 @@
-# -*- codeing = utf-8 -*-
+# -*- coding = utf-8 -*-
 # @Time: 2021/12/21 15:37
 # @Author: w
 # @File:testUrllib.py
