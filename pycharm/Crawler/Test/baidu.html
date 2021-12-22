@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度一下，你就知道</title>
+    <style type="text/css">
+      a {
+        color: black;
+      }
+      a:link {
+        text-decoration: none;
+      } /* 未被访问的链接 */
+      a:visited {
+        text-decoration: none;
+      } /* 已被访问的链接 */
+      a:hover {
+        color: #4e6ef2;
+        text-decoration: none;
+      } /* 鼠标指针移动到链接上 */
+      a:active {
+        text-decoration: none;
+      } /* 正在被点击的链接 */
+
+      /* 左边的部分 */
+      .left {
+        line-height: 22px;
+        font-size: 15px;
+        text-align: left;
+        margin: 22px 0 22px 0;
+        margin-left: 30px;
+      }
+      /* 右边的设置和登录按钮 */
+      .right {
+        position: absolute;
+        right: 0px;
+        width: 150px;
+      }
+      .dropdown {
+        text-align: center;
+        position: relative;
+        display: inline-block;
+        padding-right: 23px;
+      }
+      .dropdown-content {
+        list-style: none;
+        position: absolute;
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 61px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        padding: 12px 16px;
+        line-height: 30px;
+        z-index: 10px;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .box {
+        width: 650px;
+        height: 0px;
+        margin: 200px auto 100px;
+        position: relative;
+      }
+      input {
+        outline: none;
+        border: 2px solid #a7aab5;
+        height: 45px;
+        width: 550px;
+        box-sizing: border-box;
+        text-indent: 6px;
+        font-size: 16px;
+        border-radius: 10px 0 0 10px;
+      }
+      /* 输入框聚焦 */
+      input:focus {
+        color: #000;
+        background-color: #fff;
+        border-color: #4e6ef2 !important;
+        height: 90px;
+        border-radius: 10px 0 10px 10px;
+      }
+      .gd {
+        color: #fff;
+        background: #38f;
+        line-height: 24px;
+        font-size: 13px;
+        text-align: center;
+        border-bottom: 1px solid #38f;
+        margin-left: 7px;
+        margin-top: 10px;
+        cursor: default;
+      }
+      .hot-title {
+        width: 654px;
+        position: relative;
+        margin: 45px auto 0;
+      }
+      .baiduhot div {
+        width: 50%;
+        overflow: hidden;
+        float: left;
+        line-height: 32px;
+      }
+      .baiduyixia {
+        font-size: 17px;
+      }
+      .title-content-title {
+        margin: 10px 0 0;
+        /* margin-top: 6px;  */
+        float: left;
+        height: 32px;
+        line-height: 32px;
+      }
+      .title-content-title1 {
+        margin: 10px 0 0;
+        margin-left: 90px;
+        float: left;
+        height: 32px;
+        line-height: 32px;
+      }
+      .right-hot {
+        float: right;
+        line-height: 20px;
+      }
+      .top1 {
+        color: #fe2d46;
+      }
+      .top2 {
+        color: #f60;
+      }
+      .top3 {
+        color: #faa90e;
+      }
+      .other-top {
+        background: 0 0;
+        color: #9195a3;
+      }
+      button {
+        height: 45px;
+        width: 100px;
+        border: none;
+        color: white;
+        box-sizing: border-box;
+        background-color: #4e6ef2;
+        position: absolute;
+        left: 550px;
+        border-radius: 0 10px 10px 0;
+        cursor: pointer;
+      }
+      .imges {
+        position: absolute;
+        top: -140px;
+        left: 180px;
+      }
+      .cen {
+        text-align: center;
+        margin-bottom: 80px;
+      }
+      .buttom {
+        text-align: center;
+        padding-left: 30px;
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 10px;
+        background-color: #fbfbfb;
+      }
+      /* 点击照相机，按照图片来搜索 */
+      .soutu-btn {
+        background: #fff
+          url(https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/searchbox/nicon-10750f3f7d.png)
+          no-repeat;
+        width: 24px;
+        height: 20px;
+      }
+
+      /* 登录按钮的下拉登录图片 */
+      .settings {
+        position: relative;
+        left: 13px;
+        background-color: #4e71f2;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 12px;
+        width: 50px;
+        height: 25px;
+        display: inline-block;
+      }
+      .dropdown-settings {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content-settings {
+        display: none;
+        position: absolute;
+        right: -10px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown-settings:hover .dropdown-content-settings {
+        display: block;
+      }
+    </style>
+  </head>
+  <body style="font-family: '小米兰亭'">
+    <div class="left">
+      <a href="http://news.baidu.com/" target="blank">新闻</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://www.hao123.com/" target="blank">hao123</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://map.baidu.com/" target="blank">地图</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="http://v.baidu.com/" target="blank">视频</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://tieba.baidu.com/index.html" target="blank">贴吧</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="http://xueshu.baidu.com/" target="blank">学术</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://www.baidu.com/more/" target="blank">更多</a
+      >&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="right">
+        <div class="dropdown">
+          <span>设置</span>
+          <div class="dropdown-content">
+            <a target="blank" href="">搜索设置</a>
+            <a target="blank" href="">高级设置</a>
+            <a target="blank" href="">关闭预测</a>
+            <a target="blank" href="">隐私设置</a>
+            <a target="blank" href="">关闭热榜</a>
+          </div>
+        </div>
+        <div class="dropdown-settings">
+          <button class="settings">登录</button>
+          <div class="dropdown-content-settings">
+            <img
+              src="https://wx3.sinaimg.cn/mw690/006nMOhAgy1giu2vffxkmj30et0hxwg3.jpg"
+              width="300"
+              height="400"
+            />
+          </div>
+        </div>
+      </span>
+    </div>
+
+    <div class="box">
+      <form action="http://www.baidu.com/" target="_blank">
+        <div class="imges">
+          <img
+            src="https://www.baidu.com/img/hqydong_4f3f63f09807e2a2535ee5c2b6100511.gif"
+            alt="百度logo"
+            title="百度一下，你就知道"
+            height="129"
+            width="270"
+          />
+        </div>
+        <input type="text"></input>
+        <button>
+          <span class="soutu-btn"></span>
+          <strong class="baiduyixia">百度一下</strong>
+        </button>
+      </form>
+    </div>
+
+    <div class="hot-title">
+      百度热榜
+      <div class="baiduhot">
+        <div class="left-hot">
+          <span class="title-content-title top">
+            <span class="top1">1</span>
+            <a
+              class="five"
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E6%AD%A6%E6%B1%89%E9%80%9A%E6%8A%A5%E6%8A%97%E7%96%AB%E6%8A%A4%E5%A3%AB%E5%A4%AB%E5%A6%87%E7%9C%8B%E6%BC%94%E5%87%BA%E8%BA%AB%E4%BA%A1&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >武汉通报抗疫护士夫妇看演出身亡</a
+            >
+          </span>
+          <span class="title-content-title">
+            <span class="top2">2</span>
+            <a
+              class="five"
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E4%BB%8E%E5%8D%B0%E5%B0%BC%E8%BF%9B%E5%8F%A3%E7%9A%84%E5%86%BB%E5%B8%A6%E9%B1%BC%E5%A4%96%E5%8C%85%E8%A3%85%E9%98%B3%E6%80%A7&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >印尼进口冻带鱼外包装核酸阳性</a
+            >
+          </span>
+          <span class="title-content-title">
+            <span class="top3">3</span>
+            <a
+              class="five"
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E5%9B%BD%E5%BA%86%E4%B8%AD%E7%A7%8B%E8%B6%85500%E5%AE%B6%E6%99%AF%E5%8C%BA%E5%85%8D%E8%B4%B9%E6%88%96%E6%89%93%E6%8A%98&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >国庆中秋超500家景区免费或打折</a
+            >
+          </span>
+        </div>
+        <div class="right-hot">
+          <span class="title-content-title1">
+            <span class="other-top">4</span>
+            <a
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E4%B9%9D%E4%B8%80%E5%85%AB89%E5%91%A8%E5%B9%B4&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >九一八89周年纪念日</a
+            >
+          </span>
+          <span class="title-content-title1">
+            <span class="other-top">5</span>
+            <a
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E5%B0%91%E6%9E%97%E5%AF%BA%E5%9B%9E%E5%BA%94%E6%B3%A8%E5%86%8C666%E4%B8%AA%E5%95%86%E6%A0%87&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >少林寺回应注册666个商标</a
+            >
+          </span>
+          <span class="title-content-title1">
+            <span class="other-top">6</span>
+            <a
+              href="https://www.baidu.com/s?cl=3&tn=baidutop10&fr=top1000&wd=%E8%B5%9E%E5%AF%BC%E5%B8%88%E4%B8%8E%E5%B8%88%E5%A8%98%E8%AE%BA%E6%96%87%E4%BD%9C%E8%80%85%E8%A2%AB%E5%A4%84%E7%90%86&rsv_idx=2&rsv_dl=fyb_n_homepage&hisfilter=1"
+              >赞导师与师娘论文作者被处理</a
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 百度扫码下载 -->
+    <!-- <div class="cen">
+        	<img src="https://ftp.bmp.ovh/imgs/2020/03/8b44e9b2612c464e.png" width="100px" /><br/>
+            <p>下载百度APP</p>
+            <font color="#999999">有事搜一搜，没事看一看</font>
+        </div> -->
+    <div class="buttom">
+      <a href="https://www.baidu.com/cache/sethelp/help.html" target="_blank"
+        >设为首页</a
+      >&nbsp;&nbsp;
+      <a href="http://home.baidu.com/" target="_blank">关于百度</a>&nbsp;&nbsp;
+      <a
+        href="http://ir.baidu.com/phoenix.zhtml?c=188488&p=irol-irhome"
+        target="_blank"
+        >About Baidu</a
+      >&nbsp;&nbsp;
+      <a href="http://e.baidu.com/ebaidu/home?refer=888" target="_blank"
+        >百度推广</a
+      >&nbsp;&nbsp;
+      <a href="https://www.baidu.com/duty/" target="_blank">使用百度前必读</a
+      >&nbsp;&nbsp;
+      <a href="http://jianyi.baidu.com/" target="_blank"> 意见反馈</a
+      >&nbsp;&nbsp;
+      <a href="https://help.baidu.com/" target="_blank">帮助中心</a>&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      ©2020 Baidu&nbsp;&nbsp; 京ICP证030173号&nbsp;&nbsp;
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000001"
+        >京公网安备11000002000001号</a
+      >&nbsp;&nbsp; 京ICP证030173号
+    </div>
+  </body>
+</html>
+
+
