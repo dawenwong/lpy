@@ -16,18 +16,14 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
-
-
 def main():
     baseUrl = "https://movie.douban.com/top250?start="  # 要被爬取数据的基础网址
     # 1.爬取网页
     dataList = getData(baseUrl)
-
     # 2.对网页逐一解析，获得数据
-
     # 3.保存数据
-    savePath = r".\豆瓣电影TOP250.xls"  # 当前路径,创建一个excel文件
-    saveData(savePath)
+    savePath = r"C:\Users\WONG\Desktop\豆瓣电影TOP250.xls"  # 当前路径,创建一个excel文件
+    saveDataToExcel(dataList, savePath)
 
 
 # 得到一个指定网页的内容
@@ -63,11 +59,11 @@ inq_pat = re.compile(r'<span class="inq">(.*)</span>')  # 找到评价内容
 bd_pat = re.compile(r'<p class="">(.*?)</p>', re.S)  # 找到影片相关内容，导演等,re.S忽略换行，包含换行符在里面
 
 
-# 爬取网页
+# 对网页数据进行解析
 def getData(baseUrl):
     """获取网页的数据列表"""
     dataList = []
-    for i in range(0, 1):
+    for i in range(0, 10):
         url = baseUrl + str(i * 25)  # https://movie.douban.com/top250?start=25,每页网页是25部电影
         html = askUrl(url)
         # 逐一解析网页数据
@@ -119,12 +115,28 @@ def getData(baseUrl):
 
 
 # 保存获得的数据
-def saveData(savePath):
+def saveDataToExcel(dataList, savePath):
     """保存数据，位置：savaPath"""
+    print("save...")
+    workbook = xlwt.Workbook(encoding="utf-8", style_compression=0)  # 创建一个workbook对象,style_xxx 样式
+    worksheet = workbook.add_sheet("豆瓣电影Top250", cell_overwrite_ok=True)  # 在workbook中增加一个worksheet 名为豆瓣电影Top250表
+    # 列设定
+    col = ("电影详情链接", "图片链接", "影片中文名", "影片外文名", "豆瓣评分", "评分人数", "评价内容", "相关信息")
+    for i in range(8):
+        worksheet.write(0, i, col[i])  # 列名写入表格
+
+    for i in range(250):
+        print("第%d条" % (i + 1))
+        data = dataList[i]  # 循环取出datalist中每部电影的内容
+        for j in range(8):
+            worksheet.write(i + 1, j, data[j])  # 注意：excel中第一行已经被写入表头，因此从i+1开始写
+
+    # 保存到path路径
+    workbook.save(savePath)
 
 
 if __name__ == "__main__":  # 感觉相当于int main(){ }或public static void main(String[] args){}
-    # #main()          #作为整个程序的入口
+    main()  # 作为整个程序的入口
     # askUrl("https://movie.douban.com/top250?start=")
     # getData("https://movie.douban.com/top250?start=")
-   print(" ")
+    print("爬取完毕！！！")
