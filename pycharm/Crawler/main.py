@@ -23,7 +23,10 @@ def main():
     # 2.对网页逐一解析，获得数据
     # 3.保存数据
     savePath = r"C:\Users\WONG\Desktop\豆瓣电影TOP250.xls"  # 当前路径,创建一个excel文件
-    saveDataToExcel(dataList, savePath)
+    # saveDataToExcel(dataList, savePath)
+
+    dbpath = "movie.db"
+    saveDataToSqlitedb(dataList, dbpath)
 
 
 # 得到一个指定网页的内容
@@ -135,8 +138,54 @@ def saveDataToExcel(dataList, savePath):
     workbook.save(savePath)
 
 
+def saveDataToSqlitedb(dataList, dbpath):
+    """将数据存储到sqlite数据库，保存到当前目录"""
+    init_db(dbpath)
+    conn = sqlite3.connect(dbpath)
+    cursor = conn.cursor()
+
+    for data in dataList:
+        for index in range(len(data)):
+            if index == 4 or index == 5:  # 因为索引为4和5在数据库声明为numeric，因此不需要加双引号
+                continue
+            data[index] = '"' + data[index] + '"'  # 将列表元素取出，加上"双引号"赋给原索引
+        sql = '''
+                 insert into movie250 (
+                 info_link,pic_link,chinese_name,foreign_name,rated,counter,comment,info)
+                 values (%s)''' % ",".join(data)  # %s占位，使用"，"将data中的数据隔开
+        cursor.execute(sql)  # 执行sql插入语句
+        conn.commit()  # 提交数据库，使操作生效
+    cursor.close()
+    conn.close()
+
+
+def init_db(dbpath):
+    """创建数据库或连接数据库"""
+    sql = '''
+            create table movie250
+            (
+             id integer primary key autoincrement,
+             info_link text,
+             pic_link text,
+             chinese_name varchar,
+             foreign_name varchar,
+             rated numeric,
+             counter numeric,
+             comment text,
+             info text
+             );
+    '''  # 创建数据库
+    conn = sqlite3.connect(dbpath)  # 连接或创建一个数据库在当前路径下
+    cursor = conn.cursor()  # 获取游标
+    cursor.execute(sql)  # 执行sql语句
+    conn.commit()  # 提交数据库操作，是操作生效
+    cursor.close()
+    conn.close()  # 断开连接
+
+
 if __name__ == "__main__":  # 感觉相当于int main(){ }或public static void main(String[] args){}
     main()  # 作为整个程序的入口
     # askUrl("https://movie.douban.com/top250?start=")
     # getData("https://movie.douban.com/top250?start=")
+    # init_db("movieTest.db")
     print("爬取完毕！！！")
