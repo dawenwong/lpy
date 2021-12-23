@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>今天是{{ var }}</p><br>
+    <p>今天值班人是：</p><br>
+    {% for data in list %}
+        <li>{{ data }}</li>
+    {% endfor %}
+
+    <P>任务：</P><br>
+    <table border="1">
+        {% for k,v in task.items() %}
+             <tr>
+                 <td>{{ k }}</td>
+                 <td>{{ v }}</td>
+             </tr>>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
