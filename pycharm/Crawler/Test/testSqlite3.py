@@ -1,4 +1,4 @@
-# -*- codeing = utf-8 -*-
+# -*- coding = utf-8 -*-
 # @Time: 2021/12/23 16:14
 # @Author: w
 # @File:testSqlite3.py
@@ -35,21 +35,51 @@ import sqlite3
 
 
 # 3.插入数据
-conn = sqlite3.connect("test.db")  # 连接(打开)数据库
+# conn = sqlite3.connect("test.db")  # 连接(打开)数据库
+# print("成功连接数据库")
+# c = conn.cursor()  # 获取游标
+#
+# # 写插入的sql语句
+# sql1 = '''
+#         insert into company(id,name,age,address,salary)
+#         values (1,"张三",39,"上海",30000)
+# '''
+# sql2 = '''
+#         insert into company(id,name,age,address,salary)
+#         values (2,"李四",20,"东莞",1500)
+# '''
+# c.execute(sql1)  # 执行sql1语句
+# c.execute(sql2)  # 执行sql2语句
+# conn.commit()  # 提交数据库操作，让操作生效
+# conn.close()  # 断开数据库连接
+# print("插入数据完毕")
+
+
+# 4.查询数据
+conn = sqlite3.connect("test.db")  # 连接数据库
 print("成功连接数据库")
+
 c = conn.cursor()  # 获取游标
 
-# 写插入的sql语句
-sql1 = '''
-        insert into company(id,name,age,address,salary)
-        values (1,"张三",39,"上海",30000)
-'''
-sql2 = '''
-        insert into company(id,name,age,address,salary)
-        values (2,"李四",20,"东莞",1500)
-'''
-c.execute(sql1)  # 执行sql1语句
-c.execute(sql2)  # 执行sql2语句
-conn.commit()  # 提交数据库操作，让操作生效
+# 写查询sql语句
+sql = "select id,name,address,salary from company"
+
+cursor = c.execute(sql)  # 执行查询sql语句
+
+for row in cursor:
+    print("id = ", row[0])
+    print("name = ", row[1])
+    print("address = ", row[2])
+    print("salary = ", row[3], "\n")
+
+# conn.commit()   # 提交数据库操作，让操作生效
 conn.close()  # 断开数据库连接
-print("插入数据完毕")
+
+
+
+
+
+
+
+
+
