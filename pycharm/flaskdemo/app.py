@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import datetime
 
 app = Flask(__name__)
@@ -41,6 +41,20 @@ def index():
     name = ['张三', '李四', '王五']  # list
     task = {"任务": "打扫卫生", "时间限制": "30分钟"}  # 字典
     return render_template("index.html", var=time, list=name, task=task)  # 在html文件中，用{{var}}来接收变量
+
+
+# 表单提交
+@app.route('/test/register')
+def register():
+    return render_template("test/register.html")
+
+
+# 接收表单提交的路由为post，methods = ['POST']
+@app.route('/test/result', methods=['POST', 'GET'])
+def result():
+    if request.method == 'POST':
+        results = request.form
+        return render_template('test/result.html', results=results)
 
 
 if __name__ == '__main__':
